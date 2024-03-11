@@ -1,0 +1,78 @@
+
+INSERT , UPDATE DELETE
+
+disparador 
+
+before insert 
+after insert 
+before update 
+after update 
+before delete 
+after delete 
+
+
+SINTAXIS DE UN TRIGGER 
+
+delimiter $$
+create trigger nombre_trigger 
+before/ after 
+insert, update , delete  ON tablaafectada 
+for each row 
+begin 
+instruccion SQL 
+end $$
+
+delimiter ; 
+
+
+variables  OLD y NEW 
+
+rowtype
+
+
+
+
+
+
+delimiter $$ 
+create trigger insertarPrestamo
+after insert on prestamo 
+for each row 
+begin 
+update libro 
+set cantdisponible = cantdisponible-new.cantidadLibro,
+ estado= (if(cantDisponible = 0, "prestado", "disponible"))
+where referencia= new.referencialibro; 
+end $$
+delimiter ; 
+
+
+
+danielvargasvelasco@gmail.com 
+
+
+delimiter $$
+create trigger borrar
+before delete ON prestamo for each row
+begin 
+insert into historial(codigolibro, codigoUsuario, fechaeliminacion, horaeliminacion, cantidadlibro) 
+values (OLD.referenciaLibro, OLD.codigousuario, curdate(), curtime(), OLD.cantidadLibro );
+end $$
+Delimiter ; 
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+ 
